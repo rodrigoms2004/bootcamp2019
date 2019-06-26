@@ -1,0 +1,69 @@
+26/06/2019
+
+Imagem de aplicação
+
+Container, instancia de uma Imagem
+
+Docker Registry (Docker Hub), onde estão as imagens do Docker
+
+Dockerfile
+    Receita para criar uma imagem
+
+
+# Partimos de uma imagem existente
+FROM node:10
+
+# Definimos a pasta e copiamos os arquivos
+WORKDIR /usr/app
+COPY . ./
+
+# Instalamos as dependencias
+RUN yarn
+
+# Qual porta queremos expor?
+EXPOSE 3333
+
+# Executamos nossa aplicação
+CMD yarn start
+
+
+
+https://docs.docker.com/install/linux/docker-ce/ubuntu/ 
+
+
+https://hub.docker.com/_/postgres
+
+
+docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+
+# cria um container postgres disponivel na porta 5432 local para a porta 5432 do container
+docker run --name database -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+
+# Id do container
+a4ddbfcdf822c2fe2dcce1658558dbd7229a15d79f9e9e35327d6bb1d28778ec
+
+# visualizando os containers
+docker ps
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                    NAMES
+a4ddbfcdf822        postgres:latest     "docker-entrypoint.s   52 seconds ago      Up 51 seconds       0.0.0.0:5432->5432/tcp   database 
+
+
+# interface gráfica para postgres
+https://electronjs.org/apps/postbird
+
+criar datbase gobarber
+
+
+# parar o container
+docker stop database
+
+# iniciar o container
+docker start database
+
+
+# visualiza todos os containers
+ docker ps -a
+
+
+# verifica se está tudo ok
+docker logs database

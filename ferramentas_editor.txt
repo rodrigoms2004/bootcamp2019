@@ -1,0 +1,112 @@
+ESLINT
+
+
+plugin eslint no vscode
+
+yarn add eslint -D
+
+yarn eslint --init
+
+yarn run v1.16.0
+$ /home/rodrigo/Documents/NodeJS/Bootcamp/modulo02/node_modules/.bin/eslint --init
+? How would you like to use ESLint? To check syntax, find problems, and enforce code style
+? What type of modules does your project use? JavaScript modules (import/export)
+? Which framework does your project use? None of these
+? Where does your code run? Node
+? How would you like to define a style for your project? Use a popular style guide
+? Which style guide do you want to follow? Airbnb (https://github.com/airbnb/javascript)
+? What format do you want your config file to be in? JavaScript
+Checking peerDependencies of eslint-config-airbnb-base@latest
+? The style guide "airbnb" requires eslint@^4.19.1 || ^5.3.0. You are currently using eslint@6.0.1.
+  Do you want to downgrade? Yes
+The config that you've selected requires the following dependencies:
+
+eslint-config-airbnb-base@latest eslint@^4.19.1 || ^5.3.0 eslint-plugin-import@^2.14.0
+? Would you like to install them now with npm? Yes
+Installing eslint-config-airbnb-base@latest, eslint@^4.19.1 || ^5.3.0, eslint-plugin-import@^2.14.0
+
+remover o arquivo package-lock.json e rodar o yarn novamente
+
+yarn
+
+yarn install v1.16.0
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+info fsevents@1.2.9: The platform "linux" is incompatible with this module.
+info "fsevents@1.2.9" is an optional dependency and failed compatibility check. Excluding it from installation.
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+success Saved lockfile.
+Done in 9.66s.
+
+
+cria o arquivo .eslintrc.js
+
+ver arquivo vscode_settings_example.json
+
+
+no arquivo .eslintrc.js, colocar as excessões
+
+rules: {
+  "class-methods-use-this": "off",  // todos método de uma classe precisa utilizar this, "off" esse padrão
+  "no-param-reassign": "off",       // permite que receba um parametro e faça alterações nele
+  "camelcase": "off",               // desobriga o uso de variaveis camel case, exemplo: nossaVariavel
+  "no-unused-vars": ["error", { "argsIgnorePattern": "next" }], // por padrão não permite declarar variaveis que não vão ser usadas, 
+                                                                // abre excessão para a variável "next"
+},
+
+###################################################################
+
+PRETTIER, deixa o código mais "bonito"
+
+yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+
+no arquivo .eslintrc.js, adicionar 'prettier' no array extends
+criar o array plugins
+
+...
+extends: ['airbnb-base', 'prettier'],
+plugins: ['prettier'],
+...
+
+adicionar a regra do prettier
+
+
+rules: {
+  "prettier/prettier": "error",     // todos o erros que o prettier encontrar retornarão erro no eslint
+  "class-methods-use-this": "off",  // todos método de uma classe precisa utilizar this, "off" esse padrão
+  "no-param-reassign": "off",       // permite que receba um parametro e faça alterações nele
+  "camelcase": "off",               // desobriga o uso de variaveis camel case, exemplo: nossaVariavel
+  "no-unused-vars": ["error", { "argsIgnorePattern": "next" }], // por padrão não permite declarar variaveis que não vão ser usadas, 
+                                                                // abre excessão para a variável "next"
+},
+
+o prettier conflita com o esquema da airbnb, criar arquivo prettier.json
+
+permite o uso de aspas simples
+permite o uso de vigulas que ficam no final de objetos e arrays como es5
+
+{
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
+
+
+###################################################################
+
+para correção em massa
+
+yarn eslint --fix src --ext .js
+
+
+
+###################################################################
+
+plugin editorconfig no vscode, instalar caso muitos desenvolvedores usem editores diferentes
+
+na raiz do projeto, clicar no botão direito e selecionar Generate .editorconfig
+
+trocar ultimos parametros de false para true
+
+trim_trailing_whitespace = true
+insert_final_newline = true

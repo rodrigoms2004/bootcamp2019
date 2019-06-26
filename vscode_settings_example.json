@@ -1,0 +1,55 @@
+{
+
+  // Aplica linhas verticais para lembrar de qubras linha em códigos muito grandes
+  "editor.rulers": [80, 120],
+  "editor.formatOnSave": false,
+
+
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+    {
+      "language": "javascript",
+      "autoFix": true
+    },
+    {
+      "language": "javascriptreact",
+      "autoFix": true
+    },
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
+      "language": "typescriptreact",
+      "autoFix": true
+    }
+  ],
+
+  // The number of spaces a tab is equal to. This setting is overridden
+  // based on the file contents when `editor.detectIndentation` is true.
+  "editor.tabSize": 2,
+
+  // Insert spaces when pressing Tab. This setting is overriden
+  // based on the file contents when `editor.detectIndentation` is true.
+  "editor.insertSpaces": true,
+
+  // When opening a file, `editor.tabSize` and `editor.insertSpaces`
+  // will be detected based on the file contents. Set to false to keep
+  // the values you've explicitly set, above.
+  "editor.detectIndentation": false,
+
+  "extensions.ignoreRecommendations": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "files.associations": {
+      "*.kml": "xml"
+  },
+  "window.zoomLevel": -2,
+  "http.proxyStrictSSL": false,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "python.jediEnabled": false,
+  "python.linting.pylintEnabled": true,
+  "workbench.colorTheme": "Dracula",
+  "workbench.iconTheme": "material-icon-theme"
+}
