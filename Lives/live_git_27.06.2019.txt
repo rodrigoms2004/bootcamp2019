@@ -1,0 +1,65 @@
+# iniciar repositório
+git init
+
+
+# criar .gitignore, para ignorar quais arquivos e pastas não serão "comitados"
+node_modules
+
+# adicionar tudo
+git add .
+
+# mostra status
+git status
+
+# cria ponto no history
+git commit -m "commit inicial"
+
+tipos: 
+fix, correção de bugs
+feature, nova caractereistica
+chore, expandir detalhes de uma feature, alterações
+
+
+
+# criar repositorio
+
+git remote origin <urldogit>
+git push -u origin
+
+
+git clone
+
+# mostra os commits
+git log
+
+# cria uma ramificação
+git checkout -b feature/courses-page
+
+# volta para o master
+git checkout master
+
+# master, é o git em produção!
+
+# volta para o branch
+git checkout nomeDoBranch
+
+
+
+
+git checkout feature/courses-page
+
+git push origin feature/courses-page
+
+
+# buscar informacoes do master no branch
+git merge master
+
+git remote -v
+origin  https://github.com/rodrigoms2004/bootcamp2019.git (fetch)
+origin  https://github.com/rodrigoms2004/bootcamp2019.git (push)
+
+# pull request, solicitação de novo código
+
+#  Reapply commits on top of another base tip.
+
+git rebase
