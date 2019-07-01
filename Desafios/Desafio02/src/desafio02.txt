@@ -1,0 +1,148 @@
+https://github.com/Rocketseat/bootcamp-gostack-desafio-02/blob/master/README.md#desafio-02-iniciando-aplica%C3%A7%C3%A3o
+
+
+###########################################################################
+# Sucrase + Nodemon;
+yarn init -y
+yarn add sucrase nodemon -D
+
+
+# rodar usando: yarn sucrase-node src/server.js
+
+# criar arquivo nodemon.json com o conteúdo:
+{
+    "execMap": {
+        "js": "sucrase-node"
+    }
+}
+
+# no arquivo package.json adicionar script de inicialização
+"scripts": {
+  "dev": "nodemon src/server.js"
+},
+
+
+# instalar dependencias
+yarn add express bcryptjs jsonwebtoken pg pg-hstore sequelize yup
+
+
+###########################################################################
+# Instalando o ESLint
+
+yarn add eslint -D
+
+yarn eslint --init
+
+? How would you like to use ESLint? To check syntax, find problems, and enforce code style
+? What type of modules does your project use? JavaScript modules (import/export)
+? Which framework does your project use? None of these
+? Where does your code run? Node
+? How would you like to define a style for your project? Use a popular style guide
+? Which style guide do you want to follow? Airbnb (https://github.com/airbnb/javascript)
+? What format do you want your config file to be in? JavaScript
+Checking peerDependencies of eslint-config-airbnb-base@latest
+? The style guide "airbnb" requires eslint@^4.19.1 || ^5.3.0. You are currently using eslint@6.0.1.
+  Do you want to downgrade? Yes
+The config that you've selected requires the following dependencies:
+
+
+# remover o arquivo package-lock.json e rodar o yarn novamente
+yarn
+
+
+# instalar o prettier
+yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+
+# criar o arquivo .prettierrc com o conteúdo, permitindo:
+# uso de aspas simples
+# uso de vigulas que ficam no final de objetos e arrays como es5
+{
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
+
+
+# cria o arquivo .eslintrc.js com o conteúdo:
+module.exports = {
+  env: {
+    es6: true,
+    node: true,
+  },
+  extends: ['airbnb-base', 'prettier'],
+  plugins: ['prettier'],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  rules: {
+    "prettier/prettier": "error",     // todos o erros que o prettier encontrar retornarão erro no eslint
+    "class-methods-use-this": "off",  // todos método de uma classe precisa utilizar this, "off" esse padrão
+    "no-param-reassign": "off",       // permite que receba um parametro e faça alterações nele
+    "camelcase": "off",               // desobriga o uso de variaveis camel case, exemplo: nossaVariavel
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }], // por padrão não permite declarar variaveis que não vão ser usadas,
+                                                                  // abre excessão para a variável "next"
+  },
+};
+
+
+# para correção em massa
+
+yarn eslint --fix src --ext .js
+
+
+# plugin editorconfig no vscode, instalar caso muitos desenvolvedores usem editores diferentes
+# na raiz do projeto, clicar no botão direito e selecionar Generate .editorconfig
+# trocar ultimos parametros de false para true
+
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+
+###########################################################################
+# Sequelize
+
+
+# criar arquivo .sequelizerc na raiz
+  const { resolve } = require('path');
+  module.exports = {
+    config: resolve(__dirname, 'src', 'config', 'database.js'),
+    'models-path': resolve(__dirname, 'src', 'app', 'models.js'),
+    'migrations-path': resolve(__dirname, 'src', 'database', 'migrations'),
+    'seeders-path': resolve(__dirname, 'src', 'database', 'seeds'),
+  };
+
+
+yarn add sequelize-cli -D
+yarn sequelize migration:create --name=create-users
+
+# criar no PostgresSQL a base de dados
+Meetapp
+
+# rodando a migrate
+yarn sequelize db:migrate
+
+# desfaz a ultima migration
+yarn sequelize db:migrate:undo
+
+# desfaz todas as migrations
+yarn sequelize db:migrate:undo:all
+
+
+
+
+ESLint + Prettier + EditorConfig;
+Sequelize (Utilize PostgresSQL ou MySQL);
+
+
+// usar sucrase para suportar import
+// yarn add sucrase nodemon -D
+// rodar usando: yarn sucrase-node src/server.js
+
+// para usar nodemon ver nodemon.json
+
+
+

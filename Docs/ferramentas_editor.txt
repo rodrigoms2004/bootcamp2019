@@ -81,7 +81,7 @@ rules: {
                                                                 // abre excessão para a variável "next"
 },
 
-o prettier conflita com o esquema da airbnb, criar arquivo prettier.json
+o prettier conflita com o esquema da airbnb, criar arquivo .prettierrc
 
 permite o uso de aspas simples
 permite o uso de vigulas que ficam no final de objetos e arrays como es5
