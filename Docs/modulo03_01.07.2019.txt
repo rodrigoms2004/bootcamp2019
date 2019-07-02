@@ -100,3 +100,28 @@ template engines = arquivos html que podem receber variaveis do node
 https://handlebarsjs.com/
 
 yarn add express-handlebars nodemailer-express-handlebars
+
+
+################################
+# REDIS
+
+Sistema de fila, com banco de dados esquema chave/valor
+
+# Redis com itens essenciais do linux, bem leve
+docker run --name redisbarber -p 6379:6379 -d -t redis:alpine
+
+Digest: sha256:da9b0c7eda77322a270c5401c14788608513f5e3578e3dc3343169a3732c5e2f
+Status: Downloaded newer image for redis:alpine
+235db08c9eb44cc3d1cef99ab4d73c21a5a18d76a05806e465e93e1fe223df6e
+
+
+# instalar o bee queue
+https://github.com/bee-queue/bee-queue
+
+yarn add bee-queue
+
+# outra opção
+https://github.com/Automattic/kue
+
+
+queue roda em outro processo
