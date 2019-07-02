@@ -62,3 +62,41 @@ que vai atender o agendamento
 # biblioteca para lidar com datas
 # instala a ultima versão
 yarn add date-fns@next
+
+####################
+# MONGO db
+
+docker run --name mongobarber -p 27017:27017 -d -t mongo
+
+Digest: sha256:83cb1a2a789cef7b6fb20b397f20d3b678b81525a493ee2df23b5adefae95ea3
+Status: Downloaded newer image for mongo:latest
+cdc57e291eedea8ed5b949f86f7c3c2ab50838fcdc3325de933f43e14c60c1ea
+
+yarn add mongoose
+
+# as notificações serão armazenadas no mongodb
+
+
+
+################################
+# Notificações por e-mail
+yarn add nodemailer
+
+# Serviços de e-mail
+Amazon SES
+Mailgun
+Sparkpost
+Mandril (só para quem usa Mailchip)
+GMAIL (SMTP tem limite)
+
+Mailtrap (DEV)
+https://mailtrap.io/
+
+
+################################
+# E-mail template
+
+template engines = arquivos html que podem receber variaveis do node
+https://handlebarsjs.com/
+
+yarn add express-handlebars nodemailer-express-handlebars

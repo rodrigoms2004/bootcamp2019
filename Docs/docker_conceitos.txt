@@ -67,3 +67,11 @@ docker start database
 
 # verifica se está tudo ok
 docker logs database
+
+####################################
+# mongodb docker
+docker run --name mongobarber -p 27017:27017 -d -t mongo
+
+Digest: sha256:83cb1a2a789cef7b6fb20b397f20d3b678b81525a493ee2df23b5adefae95ea3
+Status: Downloaded newer image for mongo:latest
+cdc57e291eedea8ed5b949f86f7c3c2ab50838fcdc3325de933f43e14c60c1ea
