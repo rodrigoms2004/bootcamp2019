@@ -1,0 +1,64 @@
+yarn add multer
+
+// sigle = um arquivo por vez, com o campo/parametro file
+routes.post('/files', upload.single('file'), (req, res) => {
+  return res.json(req.file);
+});
+
+
+
+req.file
+{
+  "fieldname": "file",
+  "originalname": "we eat batman.jpg",
+  "encoding": "7bit",
+  "mimetype": "image/jpeg",
+  "destination": "/home/rodrigo/Documents/NodeJS/Bootcamp/modulos02_03/tmp/uploads",
+  "filename": "5a64e237e2d413e71598e57026cee4e1.jpg",
+  "path": "/Bootcamp/modulos02_03/tmp/uploads/5a64e237e2d413e71598e57026cee4e1.jpg",
+  "size": 559959
+}
+
+
+# criando tabela com referencia para os arquivos
+yarn sequelize migration:create --name=create-files
+yarn sequelize db:migrate
+
+# criando a migrate de relacionamento
+yarn sequelize migration:create --name=add-avatar-field-to-users
+yarn sequelize db:migrate
+
+
+####################
+# tabela de agendamentos
+yarn sequelize migration:create --name=create-appointments
+yarn sequelize db:migrate
+
+
+modulos02_03/src/database/migrations/20190701225425-create-appointments.js
+...
+      user_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'files', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL', // quando um usuário for deletado, mantem os agendamentos setando o campo user_id com null
+        // onDelete: 'CASCADE', // quando um usuário for deletado, todos os agendamentos serão deletados
+        allowNull: true,
+      },
+...
+
+a tabela appointments possui dois relacionamentos, um com o usuário que faz o agendamento e um com o prestador de serviço 
+que vai atender o agendamento
+
+
+####################
+# validando agendamentos
+
+- agendamento somente para datas futuras  
+- não permite um agendamento num mesmo horário por um provider
+- agendamento por hora, se houver agendamento as 18h00 e tentar um agendamento as 18h30, não permitirá
+
+
+# biblioteca para lidar com datas
+# instala a ultima versão
+yarn add date-fns@next
