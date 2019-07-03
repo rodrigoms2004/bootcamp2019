@@ -33,7 +33,7 @@ class AppointmentController {
       order: ['date'],
       limit: appointmentsPerPage, // volta 20 resultados por página
       offset: (page - 1) * appointmentsPerPage, // pula as paginas
-      attributes: ['id', 'date'],
+      attributes: ['id', 'date', 'past', 'cancelable'],
       include: [
         {
           model: User,

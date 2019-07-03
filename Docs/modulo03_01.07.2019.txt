@@ -125,3 +125,49 @@ https://github.com/Automattic/kue
 
 
 queue roda em outro processo
+
+
+################################
+# Horários disponíveis
+
+# data atual 03/07/2019
+> new Date().getTime()
+1562159567604
+
+################################
+# Tratamento de excessões
+
+https://sentry.io
+
+yarn add @sentry/node@5.4.3
+
+# permite que o express capture erros de chamadas assincronas
+yarn add express-async-errors
+
+# quando um middleware recebe quatro parametros o express entende que ele é um 
+# middleware de tratamento de excessões
+
+yarn add youch
+
+# no app.js a lista de imports deve estar na ordem
+
+import express from 'express';
+import path from 'path';
+import Youch from 'youch';
+import * as Sentry from '@sentry/node';
+import 'express-async-errors';
+
+import sentryConfig from './config/sentry';
+import routes from './routes';
+
+################################
+# Variáveis de ambiente
+
+.env
+
+yarn add dotenv
+
+# no arquivo app.js
+import 'dotenv/config';
+
+# carrega todas as variaveis na process.env
