@@ -79,5 +79,75 @@ yarn webpack-dev-server -D
   # rodar
   yarn build
 
+################################
+
+yarn add style-loader css-loader -D
+yarn add file-loader -D
+
+################################
+# Tag fragment = <>
+
+render() {
+    return (
+      <>
+        <ul>
+          {this.state.techs.map((tech,index) => <li key={index}>{tech}</li>)}
+        </ul>
+      </>
+    )
+  }
+
+################################
+
+# a () => antes do handleDelete permite a execução somente se o usuário clicar no botão
+
+<button onClick={() => this.handleDelete(tech)} type="button">Remover</button>
+
+################################
+# valida propriedades passadas aos componentes no react
+
+yarn add prop-types
 
 
+################################
+# ciclo de vida do componentes
+
+// Executado assim que o componente aparece na tela
+  componentDidMount() {
+    const techs = localStorage.getItem('techs')
+
+    if (techs) {
+      this.setState({ techs: JSON.parse(techs) })
+    }
+  }
+
+  // Executado semrpe que houver alterações nas props ou estado
+  // recebe como parametros as proprieadades antigas e os estados antigos
+  // quando não for utilizar prevProps, colocar um _
+  // componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
+    // this.props, this.state
+
+    // verifica se estado anterior mudou 
+    if (prevState.techs !== this.state.techs) {
+      // armazena os dados do array techs no banco de dados do navegador
+      // como o navegador não aceita arrays, salva em formato JSON
+      localStorage.setItem('techs', JSON.stringify(this.state.techs))
+      // no modo debug do navegador, selecionar Application>Storage>Local Storage
+    }
+  }
+
+  // Executado quando o componente deixa de existir
+  componentWillUnmount() {
+    
+  }
+
+  // função precisa ser arrow function para poder acessar this
+  handleInputChange = e => {
+    this.setState({ newTech: e.target.value })
+  }
+
+################################
+# React Dev Tools
+
+Google Chrome, Config>More Tools>React Developer Tools
