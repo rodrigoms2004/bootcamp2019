@@ -1,0 +1,83 @@
+# React
+
+- Biblioteca para construção de interfaces;
+- Utilizado para construção de Single-Pages Applications;
+- Podemos chamar de framework? Sim, devido ao ecosistema;
+- Tudo fica dentro do Javascript;
+- React / ReactJS/ React Native;
+
+
+import React from 'react';
+
+import './button.css';
+import icon from './button.png';
+
+function Button() {
+  return (
+    <button>
+      <img src={icon} />
+    </button>
+  );
+}
+
+################################
+VANTAGENS
+
+- Organização do código;
+  - Componentização;
+
+- Divisão de responsabilidades;
+  - Back-end: Regra de negócio
+  - Front-end: Interface
+
+- Uma API, multiplos clientes;
+
+- Programação declarativa;
+
+
+################################
+
+yarn add @babel/core @babel/preset-env @babel/preset-react webpack webpack-cli -D
+yarn add react react-dom
+
+yarn add babel-loader -D
+################################
+
+# Em package.json
+
+  "scripts": {
+    "build": "webpack --mode development"
+  },
+
+  # rodar
+  yarn build
+
+################################
+# permite reiniciar a página criada
+
+yarn webpack-dev-server -D
+
+# em webpack.config.json
+  devServer: {
+    contentBase: path.resolve(__dirname, 'public'),
+  },
+
+# em package.json
+  "scripts": {
+    "build": "webpack --mode development",
+    "dev": "webpack-dev-server --mode development"
+  },
+
+################################
+# Para gerar o bundle.js minificado
+
+"scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack-dev-server --mode development"
+  },
+
+  # rodar
+  yarn build
+
+
+
