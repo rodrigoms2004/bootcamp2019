@@ -171,3 +171,12 @@ import {
 yarn add styled-components
 
 # instalar a extensão vscode-styled-components
+
+
+##############################################
+# estilizando página Main
+
+# pacote de icones
+yarn add react-icons
+
+# usar componentes estilizados se passar de dois niveis
