@@ -1,0 +1,155 @@
+# Criando projeto com react, webpack e babel inclusos
+
+
+yarn create react-app modulo05
+
+...
+
+Success! Created modulo05 at /home/rodrigo/Documents/NodeJS/Bootcamp/modulo05
+Inside that directory, you can run several commands:
+
+  yarn start
+    Starts the development server.
+
+  yarn build
+    Bundles the app into static files for production.
+
+  yarn test
+    Starts the test runner.
+
+  yarn eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+We suggest that you begin by typing:
+
+  cd modulo05
+  yarn start
+
+Happy hacking!
+Done in 52.26s.
+
+
+
+yarn create react-app modulo05
+
+
+##############################################
+
+yarn add eslint -D
+
+yarn eslint --init
+yarn run v1.16.0
+$ /home/rodrigo/Documents/NodeJS/Bootcamp/modulo05/node_modules/.bin/eslint --init
+? How would you like to use ESLint? To check syntax, find problems, and enforce code style
+? What type of modules does your project use? JavaScript modules (import/export)
+? Which framework does your project use? React
+? Where does your code run? (Press <space> to select, <a> to toggle all, <i> to invert selection)Browser
+? How would you like to define a style for your project? Use a popular style guide
+? Which style guide do you want to follow? Airbnb (https://github.com/airbnb/javascript)
+? What format do you want your config file to be in? JavaScript
+Checking peerDependencies of eslint-config-airbnb@latest
+? The style guide "airbnb" requires eslint@^4.19.1 || ^5.3.0. You are currently using eslint@6.0.1.
+  Do you want to downgrade? Yes
+The config that you've selected requires the following dependencies:
+
+##############################################
+# como o eslint use o npm em vez do yarn, remova o arquivo package-lock.json
+# rodar yarn na raiz do projeto, criando o yarn.lock
+
+
+##############################################
+# instalar o prettier
+
+yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint -D
+
+
+##############################################
+# no arquivo .eslintrc.js adicionar as extensões do prettier e do prettier para react
+
+extends: [
+  'airbnb',
+  'prettier',
+  'prettier/react'
+],
+
+# adicionar o parser do babel
+
+parser: 'babel-eslint',
+
+# adicionar o plugin prettier
+
+  plugins: [
+    'react',
+    'prettier,'
+  ],
+
+##############################################
+# adicionando regras no padrão airbnb
+
+  rules: {
+    'prettier/prettier': 'error',     // aponta como erro todas as regras que o prettier não conseguir encontrar
+    'react/jsx-filename-extention': [ // permite escrever código jsx em arquivos js
+      'warn',
+      { extentions: ['.jsx', '.js' ] }  // emite um warning somente se as extensões não forem .jsx ou .js
+    ],
+    'import/prefer-default-export': 'off' // desativa a obrigação de usar export default quando há apenas um export no arquivo
+  },
+
+##############################################
+# arquivo final .eslintrc.js
+
+module.exports = {
+  env: {
+    browser: true,
+    es6: true,
+  },
+  extends: [
+    'airbnb',
+    'prettier',
+    'prettier/react'
+  ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parser: 'babel-eslint',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  plugins: [
+    'react',
+    'prettier,'
+  ],
+  rules: {
+    'prettier/prettier': 'error',     // aponta como erro todas as regras que o prettier não conseguir encontrar
+    'react/jsx-filename-extention': [ // permite escrever código jsx em arquivos js
+      'warn',
+      { extentions: ['.jsx', '.js' ] }  // emite um warning somente se as extensões não forem .jsx ou .js
+    ],
+    'import/prefer-default-export': 'off' // desativa a obrigação de usar export default quando há apenas um export no arquivo
+  },
+};
+
+
+##############################################
+# criar arquivo .prettierrc na raiz
+
+{
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
+
+
+
+##############################################
+##############################################
+##############################################
+##############################################
+# ROTEAMENTO NO REACT
+
+
