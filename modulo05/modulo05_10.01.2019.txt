@@ -180,3 +180,22 @@ yarn add styled-components
 yarn add react-icons
 
 # usar componentes estilizados se passar de dois niveis
+
+
+##############################################
+##############################################
+##############################################
+##############################################
+# API GITHUB
+
+https://api.github.com/
+https://developer.github.com/v3/
+https://developer.github.com/v3/repos/
+https://developer.github.com/v3/repos/#get
+
+
+yarn add axios
+
+
+# simular conexão lenta no chrome, abrir o inspector, aba Network
+# clicar em Online e selecionar outra conexão
