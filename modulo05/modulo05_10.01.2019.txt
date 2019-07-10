@@ -152,4 +152,22 @@ module.exports = {
 ##############################################
 # ROTEAMENTO NO REACT
 
+yarn add react-router-dom
 
+import {
+  BrowserRouter,    // permite navegar pelas paginas como um browser localhost:3000/cadastro, localhost:3000/usuarios
+  Switch,           // garante que somente uma página seja exibida a cada momento
+  Route             // indica a rota do componente de acordo com a navegação
+  } from 'react-router-dom';
+
+
+# exact serve para chamar main somente se o usuário acessar exatamente a rota main "/"
+  <Route path="/" exact component={Main}/>
+
+##############################################
+# estilização
+# escrever CSS em arquivo js
+
+yarn add styled-components
+
+# instalar a extensão vscode-styled-components
