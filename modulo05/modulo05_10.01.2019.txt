@@ -199,3 +199,53 @@ yarn add axios
 
 # simular conexão lenta no chrome, abrir o inspector, aba Network
 # clicar em Online e selecionar outra conexão
+
+
+
+##########################################
+# Carregando dados da API
+
+# API de issues
+https://api.github.com/repos/rocketseat/unform/issues
+
+
+
+# Fazendo duas chamadas de API independentes ao mesmo tempo
+# em src/pages/Repository/index.js
+
+# Em vez de ...
+    const response = await api.get(`/repos/${repoName}`);
+    const issues = await api.get(`/repos/${repoName}/issues`);
+
+# Usar ...
+    const [ repository, issues ] = await Promise.all([
+      api.get(`/repos/${repoName}`),
+      api.get(`/repos/${repoName}/issues`)
+    ])
+
+    console.log(repository)
+    console.log(issues)
+
+# dessa forma o código só passa para a próxima etapa após a execução
+# das duas chamadas de API
+
+
+# Envia dados na URL usando o recurso do AXIOS, para trazer
+# somente as issues abertas e cinco issues por página
+
+    const [ repository, issues ] = await Promise.all([
+      api.get(`/repos/${repoName}`),
+      api.get(`/repos/${repoName}/issues`, {
+        params: {
+          state: 'open',
+          per_page: 5,
+        }
+      })
+    ]);
+
+
+##########################################
+# Definindo PropTypes
+
+# trazer biblioteca
+yarn add prop-types
