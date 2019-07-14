@@ -27,12 +27,25 @@ export default class Main extends Component {
     }
   }
 
-  // Salvar os dados do localStorage
+  // Salvar os dados no localStorage
   componentDidUpdate(_, prevState) {
     const { repositories } = this.state;
 
     if (prevState.repositories !== repositories) {
       localStorage.setItem('repositories', JSON.stringify(repositories));
+    }
+  }
+
+  removeRepository = repoName => {
+    // obtém os dados do repositório de key='repositories'
+    const currentRepository = JSON.parse(localStorage.getItem('repositories'));
+
+    // retorna um Array com todos os repositórios, exceto aquele que queremos remover
+    const bufferRepository = currentRepository.filter(r => r.name !== repoName)
+
+    // carrega o novo repositório
+    if (bufferRepository) {
+      this.setState({ repositories: bufferRepository })
     }
   }
 
@@ -135,6 +148,10 @@ export default class Main extends Component {
             <li key={repository.name}>
               <span>{repository.name}</span>
               <Link to={`/repository/${encodeURIComponent(repository.name)}`}>Detalhes</Link>
+              <button
+                type="button"
+                onClick={() => this.removeRepository(repository.name)}
+              >Remover</button>
             </li>
           ))}
         </List>
@@ -143,3 +160,7 @@ export default class Main extends Component {
     );
   }
 }
+
+// type="button"
+// key={filter.label}
+// onClick={() => this.handleFilterClick(index)}
