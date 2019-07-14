@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Form, SubmitButton, List } from './styles';
+import { Form, SubmitButton, MessageError, List } from './styles';
 
 
 export default class Main extends Component {
@@ -14,6 +14,8 @@ export default class Main extends Component {
     newRepo: '',
     repositories: [],
     loading: false,
+    repoError: false,
+    messageError: null,
   };
 
   // Carregar os dados do localStorage
@@ -35,31 +37,65 @@ export default class Main extends Component {
   }
 
   handleInputChange = e => {
-    this.setState({ newRepo: e.target.value });
+    this.setState({
+      newRepo: e.target.value,
+      repoError: false,
+      messageError: null
+    });
   }
 
   handleSubmit = async e => {
-    e.preventDefault();
 
-    this.setState({ loading: true })
+      e.preventDefault();
 
-    const { newRepo, repositories } = this.state;
+      this.setState({ loading: true })
 
-    const response = await api.get(`/repos/${newRepo}`);
+    try {
+      const { newRepo, repositories } = this.state;
 
-    const data = {
-      name: response.data.full_name,
-    };
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    })
+      if (newRepo === '') {
+        throw 'Você precisa indicar um repositório';
+      }
+
+      const isRepoDuplicate = repositories.find(repository => repository.name === newRepo);
+
+      if (isRepoDuplicate) {
+        throw 'Repositório Duplicado';
+      }
+
+      const response = await api.get(`/repos/${newRepo}`);
+
+      const data = {
+        name: response.data.full_name,
+      };
+
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        loading: false,
+      })
+    } catch(error) {
+
+      // se a mensagem não vier do AXIOS, retorna error, caso contrário retorna error.message
+      const generalError = String(!error.message ? error : error.message)
+
+      // regex para encontrar erro: 'Request failed with status code 404'
+      const re = new RegExp(/404/)
+      // se for erro 404, retorna 'Repositório não encontrado', do contrário retorna mensagem armazenada
+      const finalError = re.test(generalError) ? 'Repositório não encontrado' : generalError
+
+      this.setState({
+        repoError: true ,
+        messageError: finalError, //!error.message ? error : error.message
+      })
+    } finally {
+      this.setState({ loading: false })
+    }
   };
 
   render() {
-    const { newRepo, repositories, loading } = this.state;
+    const { newRepo, repositories, loading, repoError, messageError } = this.state;
 
     return (
       <Container>
@@ -69,7 +105,7 @@ export default class Main extends Component {
         </h1>
 
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} repoError={repoError}>
           <input
             type="text"
             placeholder="Adicionar repositório"
@@ -85,6 +121,14 @@ export default class Main extends Component {
             )}
           </SubmitButton>
         </Form>
+
+        <MessageError messageError={messageError}>
+              { messageError !== null ? (
+                <div>{messageError}</div>
+              ) : (
+                <div></div>
+              )}
+        </MessageError>
 
         <List>
           {repositories.map(repository => (

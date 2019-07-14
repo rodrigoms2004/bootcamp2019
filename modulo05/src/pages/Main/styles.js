@@ -7,7 +7,7 @@ export const Form = styled.form`
 
   input {
     flex: 1;
-    border: 1px solid #eee;
+    border: 1px solid ${props => (props.repoError ? '#ff0000' : '#eee')};
     padding: 10px 15px;
     border-radius: 4px;
     font-size: 16px;
@@ -50,6 +50,16 @@ export const SubmitButton = styled.button.attrs(props => ({
         animation: ${rotate} 2s linear infinite;
       }
   `}
+`;
+
+export const MessageError = styled.div`
+
+  div {
+    margin-top: ${props => props.messageError !== null ? '10px' : '0px' };
+    padding: ${props => props.messageError !== null ? '15px 0' : '0px' };
+    font-size: ${props => props.messageError !== null ? '20px' : '0px' };
+    color: #FF0000;
+  }
 `;
 
 export const List = styled.ul`
