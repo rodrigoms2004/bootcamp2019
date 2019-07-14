@@ -144,7 +144,7 @@ export default class Repository extends Component {
           </button>
         </PageActions>
 
-      </Container>)
-    ;
+      </Container>
+    );
   }
 }

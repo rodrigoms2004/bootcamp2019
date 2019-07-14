@@ -13,7 +13,7 @@ export default class Main extends Component {
   state = {
     newRepo: '',
     repositories: [],
-    loading: false,
+    loading: 0,
     repoError: false,
     messageError: null,
   };
@@ -48,7 +48,7 @@ export default class Main extends Component {
 
       e.preventDefault();
 
-      this.setState({ loading: true })
+      this.setState({ loading: 1 })
 
     try {
       const { newRepo, repositories } = this.state;
@@ -73,7 +73,7 @@ export default class Main extends Component {
       this.setState({
         repositories: [...repositories, data],
         newRepo: '',
-        loading: false,
+        loading: 0,
       })
     } catch(error) {
 
@@ -90,7 +90,7 @@ export default class Main extends Component {
         messageError: finalError, //!error.message ? error : error.message
       })
     } finally {
-      this.setState({ loading: false })
+      this.setState({ loading: 0 })
     }
   };
 
