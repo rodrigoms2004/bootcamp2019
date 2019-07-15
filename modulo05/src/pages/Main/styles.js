@@ -84,7 +84,28 @@ export const List = styled.ul`
     }
 
     button {
-      text-align: center;
+      background: none;
+      color: #7159c1;
+      text-decoration: none;
+      padding:0!important;
+      font: inherit;
+      border: none;
+      cursor: pointer;
     }
   }
 `;
+
+
+// border-radius: 4px;
+// outline: 0;
+// border: 0;
+// padding: 8px;
+// margin: 0 0 .25rem;
+
+// position: absolute;
+// bottom: 0;
+// right: 0;
+// display: inline-block;
+// margin-left: -10px;
+// margin-right: 4px;
+// margin-bottom: 4px;
