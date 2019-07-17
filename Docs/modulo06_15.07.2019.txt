@@ -141,7 +141,6 @@ adb reverse tcp:9090 tcp:9090
 
 # para Android
 adb reverse tcp:8081 tcp:8081
-adb reverse tcp:9090 tcp:9090
 
 #########################################
 
@@ -238,3 +237,60 @@ react-native start --reset-cache
 yarn add styled-components
 
 # no react-native encadeamento de componentes não funciona
+
+#########################################
+
+https://devdocs.io/react_native/textinput
+
+# biblioteca de icones em formato de vetor
+yarn add react-native-vector-icons
+
+# como a lib precisa de instalações nativas...
+react-native link react-native-vector-icons
+react-native run-android
+
+# lista de icones
+https://oblador.github.io/react-native-vector-icons/
+
+# biblioteca com botões mais compativeis com todas as plataformas
+import { RectButton } from 'react-native-gesture-handler';
+
+
+#########################################
+# Salvando no Storage do celular
+
+yarn add @react-native-community/async-storage
+
+react-native link @react-native-community/async-storage
+react-native run-android
+
+# importar biblioteca
+import AsyncStorage from '@react-native-community/async-storage';
+
+# para evitar erros no editor, adicionar prop-types
+yarn add prop-types
+
+# https://www.npmjs.com/package/prop-types
+
+import PropTypes from 'prop-types';
+
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired,
+  };
+
+
+#########################################
+
+# executa a função handleNavigate
+<ProfileButton onPress={this.handleNavigate}>
+
+# cria uma função de referencia a handleNavigate, assim é possivel
+# passar parametros
+<ProfileButton onPress={() => this.handleNavigate(item)}>
+
+#########################################
+
+
+
