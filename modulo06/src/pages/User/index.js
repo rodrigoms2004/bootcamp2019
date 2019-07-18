@@ -37,11 +37,10 @@ export default class User extends Component {
   };
 
   async componentDidMount() {
-    this.loadPage(); // carrega os repositorios
+    this.load(); // carrega os repositorios
   }
 
-  // load
-  loadPage = async (page = 1) => {
+  load = async (page = 1) => {
     const { navigation } = this.props;
     const user = navigation.getParam('user');
 
@@ -66,21 +65,20 @@ export default class User extends Component {
     });
   };
 
-  // loadMore
-  loadNextPage = () => {
+  loadMore = () => {
     // obtém a página atual
     const { page } = this.state;
 
     const next = page + 1;
 
-    this.loadPage(next);
+    this.load(next);
   };
 
   // refreshList
-  updateStarredList = () => {
+  refreshList = () => {
     this.setState({ refreshing: true });
 
-    this.loadPage();
+    this.load();
   };
 
   handleNavigate = repository => {
@@ -108,10 +106,10 @@ export default class User extends Component {
         ) : (
           <Stars
             data={stars}
-            onRefresh={this.updateStarredList}
+            onRefresh={this.refreshList}
             refreshing={refreshing}
             onEndReachedThresshold={0.2}
-            onEndReached={this.loadNextPage}
+            onEndReached={this.loadMore}
             // keyExtractor precisa retornar uma string
             keyExtractor={star => String(star.id)}
             renderItem={({ item }) => (
