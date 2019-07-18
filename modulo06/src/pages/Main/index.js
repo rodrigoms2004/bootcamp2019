@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Keyboard, ActivityIndicator } from 'react-native';
+import { Keyboard, ActivityIndicator, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 // lista de icones
@@ -20,6 +20,8 @@ import {
   Bio,
   ProfileButton,
   ProfileButtonText,
+  DeleteButton,
+  DeleteButtonText,
 } from './styles';
 
 export default class Main extends Component {
@@ -56,6 +58,31 @@ export default class Main extends Component {
     }
   }
 
+  handleRemoveUser = async user => {
+    // o método getItem retorna uma string, que precisa ser convertida em array de objetos
+    const currentUsers = JSON.parse(await AsyncStorage.getItem('users'));
+
+    // tras todos os resultados, com excessão do usuário selecionado
+    const bufferUser = currentUsers.filter(u => u.login !== user.login);
+
+    // atualiza o banco o state
+    if (bufferUser) {
+      Alert.alert(
+        'Remover usuário',
+        'Deseja remover o usuário?',
+        [
+          {
+            text: 'Não',
+            // onPress: () => console.tron.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'Sim', onPress: () => this.setState({ users: bufferUser }) },
+        ],
+        { cancelable: false }
+      );
+    }
+  };
+
   handleAddUser = async () => {
     // console.tron.log(this.state.newUser);
 
@@ -63,20 +90,56 @@ export default class Main extends Component {
 
     this.setState({ loading: true });
 
-    const response = await api.get(`/users/${newUser}`);
+    try {
+      if (newUser === '') {
+        throw new Error('Você precisa informar um usuário');
+      }
 
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar: response.data.avatar_url,
-    };
+      const isUserDuplicate = users.find(user => user.login === newUser);
 
-    this.setState({
-      users: [...users, data],
-      newUser: '',
-      loading: false,
-    });
+      if (isUserDuplicate) {
+        throw new Error('Usuário já cadastrado!');
+      }
+
+      const response = await api.get(`/users/${newUser}`);
+
+      const data = {
+        name: response.data.name,
+        login: response.data.login,
+        bio: response.data.bio,
+        avatar: response.data.avatar_url,
+      };
+
+      this.setState({
+        users: [...users, data],
+        newUser: '',
+        loading: false,
+      });
+    } catch (error) {
+      // se a mensagem não vier do AXIOS, retorna error, caso contrário retorna error.message
+      const generalError = String(!error.message ? error : error.message);
+
+      // regex para encontrar erro: 'Request failed with status code 404'
+      const re = new RegExp(/404/);
+
+      // se for erro 404, retorna 'Repositório não encontrado', do contrário retorna mensagem armazenada
+      const finalError = re.test(generalError)
+        ? 'Usuário não encontrado!'
+        : generalError;
+
+      Alert.alert(
+        'Cavalo!',
+        finalError,
+        [
+          {
+            text: 'Ok' /* onPress: () => ({ }) */,
+          },
+        ],
+        { cancelable: false }
+      );
+    } finally {
+      this.setState({ loading: false });
+    }
 
     Keyboard.dismiss(); // clicando no botão o teclado some
   };
@@ -126,6 +189,10 @@ export default class Main extends Component {
               <ProfileButton onPress={() => this.handleNavigate(item)}>
                 <ProfileButtonText>Ver perfil</ProfileButtonText>
               </ProfileButton>
+
+              <DeleteButton onPress={() => this.handleRemoveUser(item)}>
+                <DeleteButtonText>Remover perfil</DeleteButtonText>
+              </DeleteButton>
             </User>
           )}
         />
