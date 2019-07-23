@@ -74,5 +74,16 @@ module.exports = {
   },
 };
 
+######################################################
+# no arquivo pckage.json trocar
+
+"babel-eslint": "^10.0.2",
+# para
+"babel-eslint": "10.0.1",
+# excutar novamente o yarn
 
 ######################################################
+# criar arquivo src/routes.js
+
+# instalar dependencias
+yarn add react-router-dom
