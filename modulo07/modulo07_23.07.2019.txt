@@ -87,3 +87,13 @@ module.exports = {
 
 # instalar dependencias
 yarn add react-router-dom
+
+######################################################
+# estilos
+yarn add styled-components
+
+
+yarn add react-icons
+
+# lida com cor dentro do javascript, clarea, escurece uma cor e etc...
+yarn add polished
