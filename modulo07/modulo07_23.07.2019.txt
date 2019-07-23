@@ -1,0 +1,78 @@
+yarn create react-app modulo07
+
+#################################
+# botão direito no vscode, selecionar Generate .editorconfig
+
+
+  root = true
+
+  [*]
+  end_of_line= lf
+  indent_style = space
+  indent_size = 2
+  charset = utf-8
+  trim_trailing_whitespace = true
+  insert_final_newline = true
+
+
+######################################################
+# ESLINT e outras perfumarias
+
+yarn add eslint -D
+yarn eslint --init
+
+
+# remova o arquivo package-lock.json e code novamente o yarn
+
+# instalar mais dependencias
+yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint -D
+
+
+# criar arquivo .prettierrc com o conteudo
+{
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
+
+
+# arquivo .eslintrc.js
+
+module.exports = {
+  env: {
+    browser: true,
+    es6: true,
+  },
+  extends: [
+    'airbnb',
+    'prettier',
+    'prettier/react',
+  ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  plugins: [
+    'react',
+    'prettier',
+  ],
+  rules: {
+    'prettier/prettier': 'error',
+    'react/jsx-filename-extension': [
+      'warn',
+      {
+        extensions: ['.jsx', '.js']
+      }
+    ],
+    'import/prefer-default-export': 'off'
+  },
+};
+
+
+######################################################
