@@ -51,6 +51,7 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -97,3 +98,38 @@ yarn add react-icons
 
 # lida com cor dentro do javascript, clarea, escurece uma cor e etc...
 yarn add polished
+
+
+######################################################
+# API
+
+
+https://github.com/typicode/json-server
+
+yarn global add json-server
+
+json-server server.json -p 3333
+
+# no arquivo package.json
+
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "apiserver": "json-server --watch server.json --port 33333"
+  },
+
+# executar com
+yarn apiserver
+
+
+######################################################
+# arquivo src/util/format.js
+
+export const { format: formatPrice } = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+});
+
+    // evitar chamar funções dentro do render()
