@@ -227,3 +227,17 @@ const enhancer =
 const store = createStore(rootReducer, enhancer);
 
 export default store;
+
+
+######################################################
+# Produto duplicado
+
+
+# immer permite manipular arrays imutáveis como se fossem imutáveis
+https://github.com/immerjs/immer
+
+yarn add immer
+
+# em .eslintrc.js colocar em rules:
+
+'no-param-reassign': 'off',
