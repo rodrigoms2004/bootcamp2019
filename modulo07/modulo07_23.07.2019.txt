@@ -167,3 +167,63 @@ function App() {
 }
 
 export default App;
+
+######################################################
+# REACTOTRON
+
+# adicionar dependencias
+yarn add reactotron-react-js reactotron-redux
+
+# criar arquivo src/config/reactotronConfig.js
+
+import Reactotron from 'reactotron-react-js';
+import { reactotronRedux } from 'reactotron-redux';
+
+if (process.env.NODE_ENV === 'development') {
+  const tron = Reactotron.configue()
+    .use(reactotronRedux())
+    .connect();
+
+  tron.clear();
+
+  console.tron = tron;
+}
+
+
+# no arquivo .eslintrc.js adicionar regra 'no-console': ["error", { allow: ["tron"] }]
+
+...
+  rules: {
+    'prettier/prettier': 'error',
+    'react/jsx-filename-extension': [
+      'warn',
+      {
+        extensions: ['.jsx', '.js']
+      }
+    ],
+    'import/prefer-default-export': 'off',
+    'no-console': ["error", { allow: ["tron"] }]
+  },
+...
+
+
+# habilitar o reactotron em src/App.js
+
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+import './config/reactotronConfig';
+
+# para habilitar no redux modificar o arquivo src/store/index.js
+
+import { createStore } from 'redux';
+
+import rootReducer from './modules/rootReducer';
+
+const enhancer =
+  process.env.NODE_ENV === 'development' ? console.tron.createEnhancer() : null;
+
+const store = createStore(rootReducer, enhancer);
+
+export default store;
