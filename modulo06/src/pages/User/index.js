@@ -108,7 +108,7 @@ export default class User extends Component {
             data={stars}
             onRefresh={this.refreshList}
             refreshing={refreshing}
-            onEndReachedThresshold={0.2}
+            onEndReachedThreshold={0.2}
             onEndReached={this.loadMore}
             // keyExtractor precisa retornar uma string
             keyExtractor={star => String(star.id)}
