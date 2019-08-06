@@ -241,3 +241,101 @@ yarn add immer
 # em .eslintrc.js colocar em rules:
 
 'no-param-reassign': 'off',
+
+######################################################
+# Redux Saga
+
+yarn add redux-saga
+
+######################################################
+# src/store/modules/cart/sagas.js
+
+import { call, put, all, takeLatest } from 'redux-saga/effects';
+
+import api from '../../../services/api';
+
+import { addToCartSuccess } from './actions';
+
+// usa generator * em vez de async await
+function* addToCart({ id }) {
+  const response = yield call(api.get, `/products/${id}`);
+
+  yield put(addToCartSuccess(response.data));
+}
+
+export default all([
+  // escuta a ação ADD_REQUEST e dispara addToCart para atualizar o numero de itens no carrinho
+  takeLatest('@cart/ADD_REQUEST', addToCart),
+]);
+
+######################################################
+# @cart/ADD_SUCCESS é o que o Reduce ouve
+
+######################################################
+# arquivo src/store/modules/rootSaga.js permite o uso de vários sagas
+import { all } from 'redux-saga/effects';
+
+import cart from './cart/sagas';
+
+export default function* rootSaga() {
+  return yield all([cart]);
+}
+
+######################################################
+# no arquivo src/store/index.js atualizar configurando o saga
+
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+
+import rootReducer from './modules/rootReducer';
+import rootSaga from './modules/rootSaga';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const enhancer =
+  process.env.NODE_ENV === 'development'
+    ? compose(
+        console.tron.createEnhancer().createEnhancer(),
+        applyMiddleware(sagaMiddleware)
+      )
+    : applyMiddleware(sagaMiddleware);
+
+const store = createStore(rootReducer, enhancer);
+
+sagaMiddleware.run(rootSaga);
+
+export default store;
+
+
+######################################################
+# plugin do redux saga para reactotron
+
+yarn add reactotron-redux-saga
+
+# no arquivo src/config/reactotronConfig.js ajustar
+
+import Reactotron from 'reactotron-react-js';
+import { reactotronRedux } from 'reactotron-redux';
+import reactotronSaga from 'reactotron-redux-saga';
+
+if (process.env.NODE_ENV === 'development') {
+  const tron = Reactotron.configure()
+    .use(reactotronRedux())
+    .use(reactotronSaga())
+    .connect();
+
+  tron.clear();
+
+  console.tron = tron;
+}
+
+
+# no arquivo src/store/index.js criar a função sagaMonitor
+
+const sagaMonitor =
+  process.env.NODE_ENV === 'development'
+    ? console.tron.createSagaMonitor()
+    : null;
+
+# e passar como objeto para o middleware
+const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
