@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 function App() {
   const [tech, setTech] = useState(['ReactJS', 'React Native']);
   const [newTech, setNewTech] = useState('');
 
-  function handleAdd() {
+  const handleAdd = useCallback(() => {
     setTech([...tech, newTech]);
     setNewTech('');
-  }
+  }, [newTech, tech]);
 
   // busca os dados já armazenados no storage, componentDidMount do Redux
   useEffect(() => {
@@ -25,6 +25,9 @@ function App() {
     // };
   }, []);
 
+  // só atualiza se techSize tiver um valor diferente
+  const techSize = useMemo(() => tech.length, [tech]);
+
   // armazena dados no storage componentDidUpdate do Redux
   useEffect(() => {
     localStorage.setItem('tech', JSON.stringify(tech));
@@ -38,7 +41,7 @@ function App() {
           <li key={t}>{t}</li>
         ))}
       </ul>
-      <strong>Você tem {tech.length} tecnologias</strong>
+      <strong>Você tem {techSize} tecnologias</strong>
       <br />
       <input value={newTech} onChange={e => setNewTech(e.target.value)} />
       <button type="button" onClick={handleAdd}>

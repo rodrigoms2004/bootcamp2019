@@ -103,3 +103,8 @@ Hooks "redux" a verbosidade para compartilhar informações entre componentes
 # permite escrever estados em uma função sem utilizar funcionalidade de classe
 import React, { useState } from 'react';
 
+
+
+# useMemo, quando é necessário fazer calculos muito complexos
+
+# useCallback, usando quando há functions criadas dentro de uma function
