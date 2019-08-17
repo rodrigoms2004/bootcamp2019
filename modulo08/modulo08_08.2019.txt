@@ -95,4 +95,11 @@ module.exports = {
 
 
 ######################################################
+# React Hooks
+
+Hooks "redux" a verbosidade para compartilhar informações entre componentes
+
+
+# permite escrever estados em uma função sem utilizar funcionalidade de classe
+import React, { useState } from 'react';
 
