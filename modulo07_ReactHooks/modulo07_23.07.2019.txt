@@ -1,0 +1,397 @@
+yarn create react-app modulo07
+
+#################################
+# botão direito no vscode, selecionar Generate .editorconfig
+
+
+  root = true
+
+  [*]
+  end_of_line= lf
+  indent_style = space
+  indent_size = 2
+  charset = utf-8
+  trim_trailing_whitespace = true
+  insert_final_newline = true
+
+
+######################################################
+# ESLINT e outras perfumarias
+
+yarn add eslint -D
+yarn eslint --init
+
+
+# remova o arquivo package-lock.json e code novamente o yarn
+
+# instalar mais dependencias
+yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint -D
+
+
+# criar arquivo .prettierrc com o conteudo
+{
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
+
+
+# arquivo .eslintrc.js
+
+module.exports = {
+  env: {
+    browser: true,
+    es6: true,
+  },
+  extends: [
+    'airbnb',
+    'prettier',
+    'prettier/react',
+  ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parser: 'babel-eslint',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  plugins: [
+    'react',
+    'prettier',
+  ],
+  rules: {
+    'prettier/prettier': 'error',
+    'react/jsx-filename-extension': [
+      'warn',
+      {
+        extensions: ['.jsx', '.js']
+      }
+    ],
+    'import/prefer-default-export': 'off'
+  },
+};
+
+######################################################
+# no arquivo pckage.json trocar
+
+"babel-eslint": "^10.0.2",
+# para
+"babel-eslint": "10.0.1",
+# excutar novamente o yarn
+
+######################################################
+# criar arquivo src/routes.js
+
+# instalar dependencias
+yarn add react-router-dom
+
+######################################################
+# estilos
+yarn add styled-components
+
+
+yarn add react-icons
+
+# lida com cor dentro do javascript, clarea, escurece uma cor e etc...
+yarn add polished
+
+
+######################################################
+# API
+
+
+https://github.com/typicode/json-server
+
+yarn global add json-server
+
+json-server server.json -p 3333
+
+# no arquivo package.json
+
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "apiserver": "json-server --watch server.json --port 33333"
+  },
+
+# executar com
+yarn apiserver
+
+
+######################################################
+# arquivo src/util/format.js
+
+export const { format: formatPrice } = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+});
+
+    // evitar chamar funções dentro do render()
+
+######################################################
+# REDUX
+
+yarn add redux react-redux
+
+# arquivos do redux ficarão na pasta
+src/store
+
+# criar o provider em App.js
+
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+import GlobalStyle from './styles/global';
+import Header from './components/Header';
+import Routes from './routes';
+
+import store from './store';
+
+function App() {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Header />
+        <Routes />
+        <GlobalStyle />
+      </BrowserRouter>
+    </Provider>
+  );
+}
+
+export default App;
+
+######################################################
+# REACTOTRON
+
+# adicionar dependencias
+yarn add reactotron-react-js reactotron-redux
+
+# criar arquivo src/config/reactotronConfig.js
+
+import Reactotron from 'reactotron-react-js';
+import { reactotronRedux } from 'reactotron-redux';
+
+if (process.env.NODE_ENV === 'development') {
+  const tron = Reactotron.configue()
+    .use(reactotronRedux())
+    .connect();
+
+  tron.clear();
+
+  console.tron = tron;
+}
+
+
+# no arquivo .eslintrc.js adicionar regra 'no-console': ["error", { allow: ["tron"] }]
+
+...
+  rules: {
+    'prettier/prettier': 'error',
+    'react/jsx-filename-extension': [
+      'warn',
+      {
+        extensions: ['.jsx', '.js']
+      }
+    ],
+    'import/prefer-default-export': 'off',
+    'no-console': ["error", { allow: ["tron"] }]
+  },
+...
+
+
+# habilitar o reactotron em src/App.js
+
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+import './config/reactotronConfig';
+
+# para habilitar no redux modificar o arquivo src/store/index.js
+
+import { createStore } from 'redux';
+
+import rootReducer from './modules/rootReducer';
+
+const enhancer =
+  process.env.NODE_ENV === 'development' ? console.tron.createEnhancer() : null;
+
+const store = createStore(rootReducer, enhancer);
+
+export default store;
+
+
+######################################################
+# Produto duplicado
+
+
+# immer permite manipular arrays imutáveis como se fossem imutáveis
+https://github.com/immerjs/immer
+
+yarn add immer
+
+# em .eslintrc.js colocar em rules:
+
+'no-param-reassign': 'off',
+
+######################################################
+# Redux Saga
+
+yarn add redux-saga
+
+######################################################
+# src/store/modules/cart/sagas.js
+
+import { call, put, all, takeLatest } from 'redux-saga/effects';
+
+import api from '../../../services/api';
+
+import { addToCartSuccess } from './actions';
+
+// usa generator * em vez de async await
+function* addToCart({ id }) {
+  const response = yield call(api.get, `/products/${id}`);
+
+  yield put(addToCartSuccess(response.data));
+}
+
+export default all([
+  // escuta a ação ADD_REQUEST e dispara addToCart para atualizar o numero de itens no carrinho
+  takeLatest('@cart/ADD_REQUEST', addToCart),
+]);
+
+######################################################
+# @cart/ADD_SUCCESS é o que o Reduce ouve
+
+######################################################
+# arquivo src/store/modules/rootSaga.js permite o uso de vários sagas
+import { all } from 'redux-saga/effects';
+
+import cart from './cart/sagas';
+
+export default function* rootSaga() {
+  return yield all([cart]);
+}
+
+######################################################
+# no arquivo src/store/index.js atualizar configurando o saga
+
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+
+import rootReducer from './modules/rootReducer';
+import rootSaga from './modules/rootSaga';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const enhancer =
+  process.env.NODE_ENV === 'development'
+    ? compose(
+        console.tron.createEnhancer().createEnhancer(),
+        applyMiddleware(sagaMiddleware)
+      )
+    : applyMiddleware(sagaMiddleware);
+
+const store = createStore(rootReducer, enhancer);
+
+sagaMiddleware.run(rootSaga);
+
+export default store;
+
+
+######################################################
+# plugin do redux saga para reactotron
+
+yarn add reactotron-redux-saga
+
+# no arquivo src/config/reactotronConfig.js ajustar
+
+import Reactotron from 'reactotron-react-js';
+import { reactotronRedux } from 'reactotron-redux';
+import reactotronSaga from 'reactotron-redux-saga';
+
+if (process.env.NODE_ENV === 'development') {
+  const tron = Reactotron.configure()
+    .use(reactotronRedux())
+    .use(reactotronSaga())
+    .connect();
+
+  tron.clear();
+
+  console.tron = tron;
+}
+
+
+# no arquivo src/store/index.js criar a função sagaMonitor
+
+const sagaMonitor =
+  process.env.NODE_ENV === 'development'
+    ? console.tron.createSagaMonitor()
+    : null;
+
+# e passar como objeto para o middleware
+const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
+
+
+######################################################
+# Biblioteca de avisos
+
+yarn add react-toastify
+
+######################################################
+# Navegando no Saga
+
+yarn add history
+
+
+# criar arquivo src/services/history.js
+
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
+
+export default history;
+
+
+# em src/App.js
+
+import history from './services/history';
+
+function App() {
+  return (
+    <Provider store={store}>
+      <Router history={history}>
+
+      </Router>
+    </Provider>
+
+
+
+# colocar delay no json-server para visualizar as chamadas
+"apiserver": "json-server --watch server.json --port 3333 -d 500"
+
+
+######################################################
+# Usando Hooks 17/08/2019
+
+yarn add eslint-plugin-react-hooks -D
+
+# em .eslintrc.js
+  plugins: [
+    'react',
+    'prettier',
+    'react-hooks'
+  ],
+
+...
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn'
+  },
