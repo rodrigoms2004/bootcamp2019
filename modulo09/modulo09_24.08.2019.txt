@@ -93,3 +93,25 @@ module.exports = {
 
 
 ######################################################
+# Reactotron
+
+yarn add reactotron-react-js
+
+
+# criar arquivo
+src/config/ReactotronConfig.js
+
+import Reactotron from "reactotron-react-js";
+
+if (process.env.NODE_ENV === "development") {
+  const tron = Reactotron.configure().connect();
+
+  tron.clear();
+
+  console.tron = tron;
+}
+
+
+# em src/App.js importat o Reactotron
+
+import "./config/ReactotronConfig";
