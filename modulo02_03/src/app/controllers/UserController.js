@@ -1,5 +1,6 @@
 import * as Yup from 'yup'; // importa validador de esquema
 import User from '../models/User';
+import File from '../models/File';
 
 class UserController {
   async store(req, res) {
@@ -60,9 +61,9 @@ class UserController {
 
     const { email, oldPassword } = req.body;
 
-    console.log(req.usrId);
+    // console.log(req.usrId);
     const user = await User.findByPk(req.userId);
-    console.log(user);
+    // console.log(user);
     // verifica se já existe usuário cadastrado com o e-mail passado
     if (email !== user.email) {
       const userExists = await User.findOne({ where: { email } });
@@ -77,13 +78,23 @@ class UserController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    const { id, name, provider } = await user.update(req.body);
+    await user.update(req.body);
+
+    const { id, name, avatar } = await User.findByPk(req.userId, {
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
+    });
 
     return res.json({
       id,
       name,
       email,
-      provider,
+      avatar,
     });
   }
 }
