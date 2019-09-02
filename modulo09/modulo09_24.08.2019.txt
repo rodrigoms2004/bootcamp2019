@@ -115,3 +115,134 @@ if (process.env.NODE_ENV === "development") {
 # em src/App.js importat o Reactotron
 
 import "./config/ReactotronConfig";
+
+######################################################
+# Utilizando Root Import
+
+yarn add customize-cra react-app-rewired -D
+yarn add babel-plugin-root-import -D
+
+# criar arquivo na raiz chamado config-overrides.js
+
+const { addBabelPlugin, override } = require('customize-cra');
+
+module.exports = override(
+  addBabelPlugin([
+    'babel-plugin-root-import',
+    {
+      rootPathSuffix: 'src',
+    },
+  ])
+);
+
+
+# em package.json mudar:
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+
+# para:
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
+  },
+
+# reinicie o servidor com yarn start
+
+# instale a dependencia do eslint para essa perfumaria funcionar
+yarn add eslint-import-resolver-babel-plugin-root-import -D
+
+# em .eslintrc.js colocar settings depois de rules
+
+  rules: {
+    ...
+  },
+  settings: {
+    "import/resolver": {
+      "babel-plugin-root-import": {
+        rootPathSuffix: "src"
+      },
+    },
+  },
+
+
+# para o vscode ir para o arquivo quando clicar pressionando o CTRL
+# crie o arquivo jsconfig.json
+{
+  "compilerOptions": {
+     "baseUrl":"src",
+     "paths":{
+        "~/*":["*"]
+      }
+  }
+}
+
+
+
+######################################################
+# Utilizando Unform (Rocketseat)
+
+yarn add @rocketseat/unform
+
+
+# exemplo: src/pages/SignIn/index.js
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Form, Input } from '@rocketseat/unform';
+
+import logo from '~/assets/logo.svg';
+
+export default function SignIn() {
+  function handleSubmit(data) {
+    console.tron.log(data);
+  }
+
+  return (
+    <>
+      <img src={logo} alt="GoBarber" />
+
+      <Form onSubmit={handleSubmit}>
+        <Input name="email" type="email" placeholder="Seu e-mail" />
+        <Input
+          name="password"
+          type="password"
+          placeholder="Sua senha secreta"
+        />
+
+        <button type="submit">Acessar</button>
+        <Link to="/register">Criar conta gratuita</Link>
+      </Form>
+    </>
+  );
+}
+
+
+######################################################
+# Validação, usando o yup
+
+yarn add yup
+
+
+
+import * as yup from 'yup';
+
+const schema = Yup.object().shape({
+  email: Yup.string()
+    .email('Insira um e-mail válido')
+    .required('O email é obrigatório'),
+  password: Yup.string().required('A senha é obrigatória'),
+});
+
+...
+  <Form schema={schema} onSubmit={handleSubmit}>
+
+
+######################################################
+
+
