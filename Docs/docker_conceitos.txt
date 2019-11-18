@@ -39,8 +39,10 @@ docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgre
 # cria um container postgres disponivel na porta 5432 local para a porta 5432 do container
 docker run --name database -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
 
+# Usuário padrão: postgres
+
 # Id do container
-a4ddbfcdf822c2fe2dcce1658558dbd7229a15d79f9e9e35327d6bb1d28778ec
+56d8c2aaa96ffe53eec44f517dfb8c460deea5142b00138833421f214a72dc48
 
 # visualizando os containers
 docker ps
